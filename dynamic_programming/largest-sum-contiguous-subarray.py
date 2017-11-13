@@ -1,19 +1,21 @@
 def lscs(a, n):
 
-    memo = [[0]*(n-i+1) for i in range(n+1)]
+    max_total = float('-Inf')
+    max_local = 0
 
-    # init first line
+    # for each element in the array
     for i in range(n):
-        memo[1][i] = a[i]
-    m = max(float('-Inf'), max(memo[1]))
+        # update the local max
+        max_local += a[i]
+        # update max total if max local is greater
+        max_total = max(max_total, max_local)
+        # if < 0, this local max will not help
+        # to find the largest sum
+        # so set max_local to 0
+        if max_local < 0:
+            max_local = 0
 
-    # for each line
-    for i in range(2, n+1):
-        for j in range(n-i+1):
-            memo[i][j] = memo[i-1][j] + memo[i-1][j+1] - memo[i-2][j+1]
-        m = max(m, max(memo[i]))
-
-    return m
+    return max_total
 
 
 for _ in range(int(input())):
