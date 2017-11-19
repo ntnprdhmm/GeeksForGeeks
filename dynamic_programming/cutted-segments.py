@@ -1,17 +1,18 @@
-def count_ways_to_cut(n, s):
-    """ n: the length to cut
-        s: segments lengths
-    """
-    if n < 0:
-        return 0
+def count_ways_to_cut(n, x, y, z):
+    arr = [-1]*(n+1)
+    # when length is 0, there is 0 way to cut it
+    arr[0] = 0
 
-    elif not n in memo:
-        memo[n] = 1 + max(count_ways_to_cut(n-s[0], s), count_ways_to_cut(n-s[1], s), count_ways_to_cut(n-s[2], s))
+    for i in range(1, n+1):
+        a = -1 if (i - x < 0) else arr[i-x]
+        b = -1 if (i - y < 0) else arr[i-y]
+        c = -1 if (i - z < 0) else arr[i-z]
+        if a >= 0 or b >= 0 or c >= 0:
+            arr[i] = 1 + max(a, b, c)
 
-    return memo[n]
+    return arr[n]
 
 for _ in range(int(input())):
-    memo = {}
     n = int(input())
-    s = list(map(int, input().split()))
-    print(count_ways_to_cut(n, s) - 1)
+    x, y, z = map(int, input().split())
+    print(count_ways_to_cut(n, x, y, z))
